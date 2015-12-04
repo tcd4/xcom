@@ -55,7 +55,7 @@ $(PROJ): $(OBJS)
 #
 
 clean:
-	rm *.o$(PROJ)
+	rm *.o $(PROJ)
 	
 	
 #

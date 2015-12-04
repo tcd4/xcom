@@ -1,0 +1,10 @@
+dict.o: dict.c ../include/dict.h ../include/dict_conversions.h \
+ ../include/types.h
+dict_conversions.o: dict_conversions.c ../include/dict_conversions.h \
+ ../include/types.h ../include/game_math.h
+game_math.o: game_math.c ../include/game_math.h ../include/types.h
+logger.o: logger.c ../include/logger.h ../include/types.h
+main.o: main.c ../include/parser.h ../include/dict.h \
+ ../include/dict_conversions.h ../include/types.h ../include/logger.h
+parser.o: parser.c ../include/parser.h ../include/dict.h \
+ ../include/dict_conversions.h ../include/types.h

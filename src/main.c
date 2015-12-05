@@ -6,6 +6,7 @@
 #include "graphics3d.h"
 #include "game.h"
 #include "cmds.h"
+#include "entity.h"
 
 
 Game_Engine game;
@@ -20,6 +21,7 @@ static uint8 _init_systems();
 static uint8 _init_SDL();
 static uint8 _init_cmds();
 static uint8 _init_graphics( Dict *config );
+static uint8 _init_ents();
 
 static void _loop();
 
@@ -30,13 +32,15 @@ static uint8 _init_systems()
 {
   Dict *config;
   
+  if( !init_logger( "../cfg/log" ) )
+    return FALSE;
   config = parse( "../cfg/system_config.def" );
   if( !config )
     return FALSE;
-  
+  /*
   if( !init_logger( find_dict( config, "log_file" ) ) )
     return FALSE;
-  
+  */
   log( INFO, "initializing systems" );
   
   GAME_TIME = 0;
@@ -51,6 +55,9 @@ static uint8 _init_systems()
     return FALSE;
   
   if( !_init_graphics( config ) )
+    return FALSE;
+  
+  if( !_init_ents( config ) )
     return FALSE;
   
   log( INFO, "systems initialized" );
@@ -114,6 +121,20 @@ static uint8 _init_graphics( Dict *config )
 }
 
 
+static uint8 _init_ents( Dict *config )
+{
+  uint32 max;
+  
+  log( INFO, "initializing entity system" );
+  
+  str_uint( find_dict( config, "max_entities" ), &max );
+  if( !init_entity_system( max ) )
+    return FALSE;
+  
+  log( INFO, "entity system initialized" );
+  return TRUE;
+}
+
 
 
 
@@ -127,6 +148,10 @@ void _loop()
   
   while( !_game_over )
   {
+    update_all_entities();
+    
+    /* move space */
+    
     while( SDL_PollEvent( &event ) )
     {
       if( event.type == SDL_QUIT )
@@ -136,6 +161,14 @@ void _loop()
     }
     
     frame_start();
+    
+    glPushMatrix();
+    
+    /* set the camera position */
+    
+    draw_all_entities();
+    
+    glPopMatrix();
     
     frame_end();
   }
@@ -153,6 +186,14 @@ static void _exit_systems()
   log( INFO, "shutting down" );
   
   exit_command_system();
+  log( INFO, "command system shutdown" );
+  
+  exit_entity_system();
+  log( INFO, "entity system shutdown" );
+  
+  exit_graphics();
+  log( INFO, "graphics shutdown" );
+  
   exit_logging();
   SDL_Quit();
 }

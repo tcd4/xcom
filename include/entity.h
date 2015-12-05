@@ -47,16 +47,16 @@ typedef struct entity_s
 }Entity;
 
 
-uint8 init_entity_system();
+uint8 init_entity_system( uint32 max_entities );
 Entity* create_entity();
 
-void update_entity();
+void update_entity( Entity *ent );
 void update_all_entities();
 
-void draw_entity();
+void draw_entity( Entity *ent );
 void draw_all_entities();
 
-void free_entity();
+void free_entity( Entity *ent );
 void free_all_entities();
 void exit_entity_system();
 

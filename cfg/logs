@@ -1,22 +1,22 @@
-main.c:40 --- INFO
+main.c:42 --- INFO
 initializing systems
-main.c:64 --- INFO
+main.c:69 --- INFO
 initializing SDL
-main.c:72 --- INFO
+main.c:77 --- INFO
 SDL initialized
-main.c:48 --- INFO
+main.c:50 --- INFO
 threaded logger initialized
-main.c:79 --- INFO
-initializing command system
 main.c:84 --- INFO
+initializing command system
+main.c:89 --- INFO
 adding quit command
-main.c:90 --- INFO
+main.c:95 --- INFO
 command system initialized
-main.c:101 --- INFO
+main.c:106 --- INFO
 initializing graphics
-main.c:112 --- INFO
+main.c:117 --- INFO
 graphics initialized
-main.c:56 --- INFO
-systems initialized
-main.c:153 --- INFO
-shutting down
+main.c:126 --- INFO
+initializing entity system
+main.c:129 --- TRACE
+1083236352

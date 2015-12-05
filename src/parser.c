@@ -58,7 +58,6 @@ static void _parse( yaml_parser_t *parser, Dict *dict )
 	  strncpy( key, ( char* )event.data.scalar.value, 128 );
 	else
 	  add_str_dict( dict, key, ( char* )event.data.scalar.value );
-	  
 	state ^= 1;
 	break;
 	

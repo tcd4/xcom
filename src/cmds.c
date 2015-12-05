@@ -76,10 +76,7 @@ uint8 init_command_system()
 
 uint8 is_cmd_sys_init()
 {
-  if( _is_init )
-    return TRUE;
-  
-  return FALSE;
+  return ( _is_init ? TRUE:FALSE );
 }
 
 

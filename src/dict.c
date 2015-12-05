@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include "logger.h"
 
 
 void free_entry( data entry );
@@ -60,7 +61,6 @@ uint8 add_str_dict( Dict *dict, char *key, char* value )
   }
   
   dict->length++;
-  
   return TRUE;
 }
 

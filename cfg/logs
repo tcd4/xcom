@@ -1,18 +1,22 @@
-main.c:39 --- INFO
+main.c:40 --- INFO
 initializing systems
-main.c:60 --- INFO
+main.c:64 --- INFO
 initializing SDL
-main.c:68 --- INFO
+main.c:72 --- INFO
 SDL initialized
-main.c:47 --- INFO
+main.c:48 --- INFO
 threaded logger initialized
-main.c:75 --- INFO
+main.c:79 --- INFO
 initializing command system
-main.c:80 --- INFO
-adding quit command
 main.c:84 --- INFO
+adding quit command
+main.c:90 --- INFO
 command system initialized
-main.c:52 --- INFO
+main.c:101 --- INFO
+initializing graphics
+main.c:112 --- INFO
+graphics initialized
+main.c:56 --- INFO
 systems initialized
-main.c:105 --- INFO
+main.c:153 --- INFO
 shutting down

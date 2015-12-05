@@ -1,1 +1,4 @@
 log_file: ../cfg/logs
+
+resolution: 1920,1080
+frame_delay: 33

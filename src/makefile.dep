@@ -4,6 +4,7 @@ dict.o: dict.c ../include/dict.h ../include/dict_conversions.h \
  ../include/types.h
 dict_conversions.o: dict_conversions.c ../include/dict_conversions.h \
  ../include/types.h ../include/game_math.h
+entity.o: entity.c ../include/entity.h ../include/types.h
 game_math.o: game_math.c ../include/game_math.h ../include/types.h
 graphics3d.o: graphics3d.c ../include/game.h ../include/types.h \
  ../include/graphics3d.h ../include/logger.h ../include/shader.h

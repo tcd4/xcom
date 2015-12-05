@@ -10,7 +10,7 @@
 void setup_default_light();
 
 
-uint8 init_graphics( vec2_t resolution, int screen_flags, char *name, uint32 frame_delay, uint32 flags )
+uint8 init_graphics( vec2_t resolution, int screen_flags, char *name, uint32 frame_delay )
 {
   const unsigned char *version;
   GLenum glew_status;
@@ -21,7 +21,7 @@ uint8 init_graphics( vec2_t resolution, int screen_flags, char *name, uint32 fra
 				  SDL_WINDOWPOS_UNDEFINED,
 				  resolution[ XA ],
 				  resolution[ YA ],
-				  flags );
+				  screen_flags );
   
   game.context = SDL_GL_CreateContext( game.window );
   if( !game.context )

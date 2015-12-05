@@ -2,6 +2,13 @@
 #define __DICT_CONVERSIONS__
 
 
+/**
+ * @file dict_conversions.h
+ * 
+ * @brief a file for converting strings to other types
+ */
+
+
 #include "types.h"
 
 

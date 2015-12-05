@@ -2,6 +2,13 @@
 #define __GAME_MATH__
 
 
+/**
+ * @file game_math.h
+ * 
+ * @brief file for handling various math functions
+ */
+
+
 #include "types.h"
 
 

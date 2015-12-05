@@ -19,6 +19,7 @@ static uint8 _game_over = 0;
 static uint8 _init_systems();
 static uint8 _init_SDL();
 static uint8 _init_cmds();
+static uint8 _init_graphics( Dict *config );
 
 static void _loop();
 
@@ -47,6 +48,9 @@ static uint8 _init_systems()
     log( INFO, "threaded logger initialized" );
   
   if( !_init_cmds() )
+    return FALSE;
+  
+  if( !_init_graphics( config ) )
     return FALSE;
   
   log( INFO, "systems initialized" );
@@ -80,17 +84,61 @@ static uint8 _init_cmds()
   log( INFO, "adding quit command" );
   if( !add_cmd( "game_over", NULL, SDL_KEYUP, SDLK_F12, end_game, NULL ) )
     return FALSE;
+  
+  turn_on_cmd( "game_over" );
     
   log( INFO, "command system initialized" );
   return TRUE;
 }
 
 
+static uint8 _init_graphics( Dict *config )
+{
+  vec2_t res;
+  uint32 fd;
+  int flags = 0;
+  
+  log( INFO, "initializing graphics" );
+  
+  str_uint( find_dict( config, "frame_delay" ), &fd );
+  str_vec2( find_dict( config, "resolution" ), res );
+  flags |= SDL_WINDOW_SHOWN;
+  flags |= SDL_WINDOW_OPENGL;
+  flags |= SDL_WINDOW_FULLSCREEN;
+  flags |= SDL_WINDOW_BORDERLESS;
+  
+  init_graphics( res, flags, "xcom", fd );
+  
+  log( INFO, "graphics initialized" );
+  return TRUE;
+}
+
+
+
+
+
+
+
 
 
 void _loop()
 {
+  SDL_Event event;
   
+  while( !_game_over )
+  {
+    while( SDL_PollEvent( &event ) )
+    {
+      if( event.type == SDL_QUIT )
+	_game_over = 1;
+      else
+	check_cmds( &event );
+    }
+    
+    frame_start();
+    
+    frame_end();
+  }
 }
 
 

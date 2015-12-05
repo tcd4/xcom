@@ -2,6 +2,13 @@
 #define __GAME__
 
 
+/**
+ * @file game.h
+ * 
+ * @brief has the basic game struct
+ */
+
+
 #include <SDL.h>
 #include <GL/glew.h>
 
@@ -10,16 +17,16 @@
 
 typedef struct engine_s
 {
-  SDL_Window *window;
-  SDL_GLContext context;
-  GLuint shader_program;
+  SDL_Window	*window;
+  SDL_GLContext	context;
+  GLuint	shader_program;
   
-  uint32 frame_delay;
-  uint32 current_time;
-  uint32 previous_time;
-  uint32 current_frame;
+  uint32	frame_delay;
+  uint32	current_time;
+  uint32	previous_time;
+  uint32	current_frame;
   
-  vec2_t resolution;
+  vec2_t	resolution;
 }Game_Engine;
 
 

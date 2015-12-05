@@ -54,6 +54,7 @@ typedef vec_t vec4_t[ 4 ];
 #define AA 3
 
 
+/* thank you Bo */
 #define flag_is_set( a, b )	( a & b )
 #define set_flag( a, b )	( a |= b )
 #define remove_flag( a, b )	( a &= ~b )

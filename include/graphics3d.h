@@ -25,7 +25,7 @@
  * 
  * @return TRUE on success, FALSE if else
  */
-uint8 init_graphics( vec2_t resolution, int screen_flags, char *name, uint32 frame_delay, uint32 flags );
+uint8 init_graphics( vec2_t resolution, int screen_flags, char *name, uint32 frame_delay );
 
 /**
  * @brief starts a new frame

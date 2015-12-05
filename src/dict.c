@@ -2,7 +2,6 @@
 
 #include <string.h>
 #include <stdlib.h>
-#include "logger.h"
 
 
 void free_entry( data entry );

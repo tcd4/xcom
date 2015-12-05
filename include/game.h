@@ -19,7 +19,11 @@ typedef struct engine_s
 {
   SDL_Window	*window;
   SDL_GLContext	context;
+  
   GLuint	shader_program;
+  GLuint 	vertex_buffer;
+  GLuint 	UV_buffer;
+  GLuint 	normal_buffer;
   
   uint32	frame_delay;
   uint32	current_time;

@@ -32,15 +32,13 @@ static uint8 _init_systems()
 {
   Dict *config;
   
-  if( !init_logger( "../cfg/log" ) )
-    return FALSE;
   config = parse( "../cfg/system_config.def" );
   if( !config )
     return FALSE;
-  /*
+  
   if( !init_logger( find_dict( config, "log_file" ) ) )
     return FALSE;
-  */
+  
   log( INFO, "initializing systems" );
   
   GAME_TIME = 0;

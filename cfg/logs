@@ -18,5 +18,15 @@ main.c:117 --- INFO
 graphics initialized
 main.c:126 --- INFO
 initializing entity system
-main.c:129 --- TRACE
-1083236352
+main.c:132 --- INFO
+entity system initialized
+main.c:61 --- INFO
+systems initialized
+main.c:184 --- INFO
+shutting down
+main.c:187 --- INFO
+command system shutdown
+main.c:190 --- INFO
+entity system shutdown
+main.c:193 --- INFO
+graphics shutdown

@@ -61,18 +61,6 @@
 #define rand_ranged( start, end )	( ( int )( random() * ( end - start ) + start ) )
 
 
-/* vector types */
-
-/**< x axis define */
-#define XA 0
-/**< y axis define */
-#define YA 1
-/**< z axis define */
-#define ZA 2
-/**< a axis define */
-#define AA 3
-
-
 /* vector macros */
 
 /*< sets a 2d vector */

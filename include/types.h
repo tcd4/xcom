@@ -9,9 +9,6 @@
  */
 
 
-#include <glib.h>
-
-
 /* unsigned sized int defines */
 
 typedef unsigned char	uint8;		/**< unsigned 8 bit integer  */
@@ -46,6 +43,32 @@ typedef vec_t vec3_t[ 3 ];
 
 /*< 4d vector type */
 typedef vec_t vec4_t[ 4 ];
+
+/**< x axis define */
+#define XA 0
+/**< y axis define */
+#define YA 1
+/**< z axis define */
+#define ZA 2
+/**< a axis define */
+#define AA 3
+
+
+#define flag_is_set( a, b )	( a & b )
+#define set_flag( a, b )	( a |= b )
+#define remove_flag( a, b )	( a &= ~b )
+#define toggle_flag( a, b )	( a ^= b )
+
+
+#ifndef NULL
+
+#ifdef __cplusplus
+#define NULL 0                           /**< NULL for c++ */
+#else
+#define NULL ((void *) 0)                /**< NULL for c */
+#endif
+
+#endif
 
 
 /* TRUE/FALSE defines */

@@ -8,6 +8,7 @@
  * @brief a dictionary data type
  */
 
+#include <glib.h>
 
 #include "dict_conversions.h"
 

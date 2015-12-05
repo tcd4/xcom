@@ -1,7 +1,7 @@
-#include <stdio.h>
-
 #include "dict_conversions.h"
 #include "game_math.h"
+
+#include <stdio.h>
 
 
 uint8 str_bool( char *str, uint8 *out )

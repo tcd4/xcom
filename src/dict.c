@@ -1,7 +1,7 @@
+#include "dict.h"
+
 #include <string.h>
 #include <stdlib.h>
-
-#include "dict.h"
 
 
 void free_entry( data entry );

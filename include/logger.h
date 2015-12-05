@@ -86,7 +86,7 @@ char* log_level_to_str( Log_Level lvl );
  * @param lvl the Log_Level to write to
  * @param ... the message including its additional arguments
  */
-#define log( lvl, ... )		log_msg( __FILE__, __LINE__, lvl, __VA_ARGS__ )
+#define log( lvl, ... ) log_msg( __FILE__, __LINE__, lvl, __VA_ARGS__ )
 
 /**
  * @brief logs a message

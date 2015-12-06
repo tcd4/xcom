@@ -1,3 +1,5 @@
+camera.o: camera.c ../include/camera.h ../include/types.h \
+ ../include/game_math.h
 cmds.o: cmds.c ../include/cmds.h ../include/types.h ../include/logger.h \
  ../include/game.h
 dict.o: dict.c ../include/dict.h ../include/dict_conversions.h \
@@ -7,14 +9,22 @@ dict_conversions.o: dict_conversions.c ../include/dict_conversions.h \
 entity.o: entity.c ../include/entity.h ../include/types.h \
  ../include/logger.h
 game_math.o: game_math.c ../include/game_math.h ../include/types.h
-graphics3d.o: graphics3d.c ../include/game.h ../include/types.h \
- ../include/graphics3d.h ../include/logger.h ../include/shader.h
+graphics3d.o: graphics3d.c ../include/graphics3d.h ../include/logger.h \
+ ../include/types.h ../include/shader.h ../include/game.h
 logger.o: logger.c ../include/logger.h ../include/types.h
 main.o: main.c ../include/parser.h ../include/dict.h \
  ../include/dict_conversions.h ../include/types.h ../include/logger.h \
- ../include/graphics3d.h ../include/game.h ../include/cmds.h \
- ../include/entity.h
+ ../include/graphics3d.h ../include/shader.h ../include/obj.h \
+ ../include/model.h ../include/sprite.h ../include/graphics3d.h \
+ ../include/sprite.h ../include/cmds.h ../include/entity.h \
+ ../include/camera.h ../include/game.h ../include/game_math.h
+model.o: model.c ../include/model.h ../include/sprite.h \
+ ../include/graphics3d.h ../include/logger.h ../include/types.h
+obj.o: obj.c ../include/obj.h ../include/model.h ../include/sprite.h \
+ ../include/graphics3d.h ../include/types.h ../include/logger.h
 parser.o: parser.c ../include/parser.h ../include/dict.h \
  ../include/dict_conversions.h ../include/types.h
 shader.o: shader.c ../include/shader.h ../include/logger.h \
  ../include/types.h
+sprite.o: sprite.c ../include/sprite.h ../include/graphics3d.h \
+ ../include/logger.h ../include/types.h ../include/graphics3d.h

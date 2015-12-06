@@ -4,13 +4,17 @@
 #include "parser.h"
 #include "logger.h"
 #include "graphics3d.h"
-#include "game.h"
+#include "shader.h"
+#include "obj.h"
+#include "sprite.h"
 #include "cmds.h"
 #include "entity.h"
+#include "camera.h"
+#include "game.h"
+#include "game_math.h"
 
 
 Game_Engine game;
-
 
 void end_game();
 
@@ -21,7 +25,7 @@ static uint8 _init_systems();
 static uint8 _init_SDL();
 static uint8 _init_cmds();
 static uint8 _init_graphics( Dict *config );
-static uint8 _init_ents();
+static uint8 _init_ents( Dict *config );
 
 static void _loop();
 
@@ -41,7 +45,6 @@ static uint8 _init_systems()
   
   log( INFO, "initializing systems" );
   
-  GAME_TIME = 0;
   
   if( !_init_SDL() )
     return FALSE;
@@ -52,11 +55,13 @@ static uint8 _init_systems()
   if( !_init_cmds() )
     return FALSE;
   
+  GAME_TIME = 0;
   if( !_init_graphics( config ) )
     return FALSE;
   
   if( !_init_ents( config ) )
     return FALSE;
+  
   
   log( INFO, "systems initialized" );
   free_dict( config );
@@ -112,9 +117,23 @@ static uint8 _init_graphics( Dict *config )
   flags |= SDL_WINDOW_FULLSCREEN;
   flags |= SDL_WINDOW_BORDERLESS;
   
-  init_graphics( res, flags, "xcom", fd );
+  if( graphics3d_init( res[ XA ], res[ YA ], 1, "xcom", fd ) < 0 )
+    return FALSE;
   
   log( INFO, "graphics initialized" );
+  
+  log( INFO, "initializing model system" );
+  model_init();
+  log( INFO, "model system initialized" );
+  
+  log( INFO, "initializing obj system" );
+  obj_init();
+  log( INFO, "obj system initialized" );
+  
+  log( INFO, "initializing sprite system" );
+  InitSpriteList();
+  log( INFO, "sprite system initialized" );
+  
   return TRUE;
 }
 
@@ -132,6 +151,9 @@ static uint8 _init_ents( Dict *config )
   log( INFO, "entity system initialized" );
   return TRUE;
 }
+
+
+
 
 
 
@@ -158,17 +180,16 @@ void _loop()
 	check_cmds( &event );
     }
     
-    frame_start();
+    graphics3d_frame_begin();
     
     glPushMatrix();
     
-    /* set the camera position */
-    
+    move_camera();
     draw_all_entities();
     
     glPopMatrix();
     
-    frame_end();
+    graphics3d_next_frame();
   }
 }
 
@@ -181,16 +202,13 @@ void end_game()
 
 static void _exit_systems()
 {
-  log( INFO, "shutting down" );
+  log( INFO, "!!!!!SHUTTING DOWN!!!!!" );
   
   exit_command_system();
   log( INFO, "command system shutdown" );
   
   exit_entity_system();
   log( INFO, "entity system shutdown" );
-  
-  exit_graphics();
-  log( INFO, "graphics shutdown" );
   
   exit_logging();
   SDL_Quit();

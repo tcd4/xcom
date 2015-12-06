@@ -1,32 +1,47 @@
-main.c:42 --- INFO
+main.c:46 --- INFO
 initializing systems
-main.c:69 --- INFO
+main.c:74 --- INFO
 initializing SDL
-main.c:77 --- INFO
+main.c:82 --- INFO
 SDL initialized
-main.c:50 --- INFO
+main.c:53 --- INFO
 threaded logger initialized
-main.c:84 --- INFO
-initializing command system
 main.c:89 --- INFO
+initializing command system
+main.c:94 --- INFO
 adding quit command
-main.c:95 --- INFO
+main.c:100 --- INFO
 command system initialized
-main.c:106 --- INFO
+main.c:111 --- INFO
 initializing graphics
-main.c:117 --- INFO
+shader.c:93 --- ERROR
+Compile failure in fragment shader:
+0(2) : error C7573: OpenGL/ES requires precision specifier on this float type (there is no default precision)
+0(3) : error C7573: OpenGL/ES requires precision specifier on this float type (there is no default precision)
+
+main.c:123 --- INFO
 graphics initialized
-main.c:126 --- INFO
+main.c:125 --- INFO
+initializing model system
+main.c:127 --- INFO
+model system initialized
+main.c:129 --- INFO
+initializing obj system
+main.c:131 --- INFO
+obj system initialized
+main.c:133 --- INFO
+initializing sprite system
+main.c:135 --- INFO
+sprite system initialized
+main.c:145 --- INFO
 initializing entity system
-main.c:132 --- INFO
+main.c:151 --- INFO
 entity system initialized
-main.c:61 --- INFO
+main.c:66 --- INFO
 systems initialized
-main.c:184 --- INFO
-shutting down
-main.c:187 --- INFO
+main.c:205 --- INFO
+!!!!!SHUTTING DOWN!!!!!
+main.c:208 --- INFO
 command system shutdown
-main.c:190 --- INFO
+main.c:211 --- INFO
 entity system shutdown
-main.c:193 --- INFO
-graphics shutdown

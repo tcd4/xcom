@@ -3,6 +3,9 @@ log_file: ../cfg/logs
 resolution: 1920,1080
 frame_delay: 33
 
-max_entities: 127
+max_entities: 128
+max_sprites: 1024
+max_objs: 1024
+
 
 

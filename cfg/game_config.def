@@ -1,0 +1,4 @@
+default_camera_position: 0,0,0
+default_camera_rotation: 0,-30,0
+
+ui: ../cfg/ui.def

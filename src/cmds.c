@@ -1,6 +1,5 @@
 #include "cmds.h"
 #include "logger.h"
-#include "game.h"
 
 #include <glib.h>
 #include <glib/glist.h>
@@ -19,7 +18,6 @@ typedef struct cmd_s
   char *name;
   uint32 event_type;
   int id;
-  uint32 last_pressed;
   struct cmd_map_s *map;
   
   command_notify activate;
@@ -423,7 +421,6 @@ static void _check_cmd( Cmd *cmd, SDL_Event *event )
     goto end;
 
 hit:
-  cmd->last_pressed = GAME_TIME;
   if( cmd->activate )
     cmd->activate( cmd->event_params );
   

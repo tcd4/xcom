@@ -14,18 +14,17 @@
 #include "game_math.h"
 
 
-Game_Engine game;
-
 void end_game();
 
 
-static uint8 _game_over = 0;
+static uint8	_game_over = 0;
+static Dict	*_sys_config;
 
 static uint8 _init_systems();
 static uint8 _init_SDL();
 static uint8 _init_cmds();
-static uint8 _init_graphics( Dict *config );
-static uint8 _init_ents( Dict *config );
+static uint8 _init_graphics();
+static uint8 _init_ents();
 
 static void _loop();
 
@@ -34,17 +33,14 @@ static void _exit_systems();
 
 static uint8 _init_systems()
 {
-  Dict *config;
-  
-  config = parse( "../cfg/system_config.def" );
-  if( !config )
+  _sys_config = parse( "../cfg/system_config.def" );
+  if( !_sys_config )
     return FALSE;
   
-  if( !init_logger( find_dict( config, "log_file" ) ) )
+  if( !init_logger( find_dict( _sys_config, "log_file" ) ) )
     return FALSE;
   
   log( INFO, "initializing systems" );
-  
   
   if( !_init_SDL() )
     return FALSE;
@@ -55,16 +51,14 @@ static uint8 _init_systems()
   if( !_init_cmds() )
     return FALSE;
   
-  GAME_TIME = 0;
-  if( !_init_graphics( config ) )
+  if( !_init_graphics() )
     return FALSE;
   
-  if( !_init_ents( config ) )
+  if( !_init_ents() )
     return FALSE;
   
   
   log( INFO, "systems initialized" );
-  free_dict( config );
   return TRUE;
 }
 
@@ -102,7 +96,7 @@ static uint8 _init_cmds()
 }
 
 
-static uint8 _init_graphics( Dict *config )
+static uint8 _init_graphics()
 {
   vec2_t res;
   uint32 fd;
@@ -110,8 +104,8 @@ static uint8 _init_graphics( Dict *config )
   
   log( INFO, "initializing graphics" );
   
-  str_uint( find_dict( config, "frame_delay" ), &fd );
-  str_vec2( find_dict( config, "resolution" ), res );
+  str_uint( find_dict( _sys_config, "frame_delay" ), &fd );
+  str_vec2( find_dict( _sys_config, "resolution" ), res );
   flags |= SDL_WINDOW_SHOWN;
   flags |= SDL_WINDOW_OPENGL;
   flags |= SDL_WINDOW_FULLSCREEN;
@@ -138,13 +132,13 @@ static uint8 _init_graphics( Dict *config )
 }
 
 
-static uint8 _init_ents( Dict *config )
+static uint8 _init_ents()
 {
   uint32 max;
   
   log( INFO, "initializing entity system" );
   
-  str_uint( find_dict( config, "max_entities" ), &max );
+  str_uint( find_dict( _sys_config, "max_entities" ), &max );
   if( !init_entity_system( max ) )
     return FALSE;
   
@@ -166,8 +160,11 @@ void _loop()
 {
   SDL_Event event;
   
+  game_start( find_dict( _sys_config, "game_config" ) );
+  
   while( !_game_over )
   {
+    game_check();
     update_all_entities();
     
     /* move space */
@@ -204,11 +201,13 @@ static void _exit_systems()
 {
   log( INFO, "!!!!!SHUTTING DOWN!!!!!" );
   
-  exit_command_system();
-  log( INFO, "command system shutdown" );
+  free_dict( _sys_config );
   
   exit_entity_system();
   log( INFO, "entity system shutdown" );
+  
+  exit_command_system();
+  log( INFO, "command system shutdown" );
   
   exit_logging();
   SDL_Quit();

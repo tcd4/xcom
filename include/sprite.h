@@ -2,6 +2,7 @@
 #define __SPRITE__
 
 #include "graphics3d.h"
+#include "types.h"
 #include <SDL.h>
 
 #define MAXSPRITEFILENAME 512
@@ -35,15 +36,15 @@ void FreeSprite(Sprite *img);
 Sprite *LoadSprite(char *filename,int sizex, int sizey);
 
 /**
- * @brief draws a specifif sprite to a surface
+ * @brief draws a sprite to a surface
  * 
  * @param sprite a pointer to the sprite to draw
- * @param surface a pointer to the SDL Surface to draw to
- * @param sx the x position on the surface to draw the sprite at
- * @param sy the y position on the surface to draw the sprite at
+ * @param position the position to draw the sprite at
+ * @param scale the scale to draw the sprite
+ * @param rotation the rotation to draw the sprite
  * @param frame the sprite frame to draw
  */
-void DrawSprite(Sprite *sprite,SDL_Surface *surface,int sx,int sy, int frame);
+void draw_sprite( Sprite *sprite, vec2_t position, vec2_t scale, vec2_t rotation, uint32 frame );
 
 /**
  * @brief clears all loaded sprites in system.  Called before program exit

@@ -30,7 +30,7 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
                               SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED,
                               sw, sh,
-                              SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+                              SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS );
     
     
     __graphics3d_gl_context = SDL_GL_CreateContext(__graphics3d_window);
@@ -94,7 +94,7 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
     atexit(graphics3d_close);
     
     /* my shit */
-    GAME_FRAME = 0;
+    init_game_engine( sw, sh, frameDelay );
     
     return 0;
 }
@@ -114,21 +114,19 @@ void graphics3d_frame_begin()
 
 void graphics3d_next_frame()
 {
-    static Uint32 then = 0;
+    Uint32 then;
     Uint32 now;
     glPopMatrix();
     SDL_GL_SwapWindow(__graphics3d_window);
-    now = SDL_GetTicks();
+    
+    update_game_time();
+    now = get_game_time();
+    then = get_previous_time();
     if ((now - then) < __graphics3d_frame_delay)
     {
         SDL_Delay(__graphics3d_frame_delay - (now - then));        
     }
-    then = now;
-    
-    /* my shit */
-    GAME_TIME = now;
-    GAME_FRAME++;
-    game.previous_time = then;
+    update_previous_time();
 }
 
 void graphics3d_setup_default_light()

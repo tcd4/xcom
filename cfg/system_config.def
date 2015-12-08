@@ -7,5 +7,5 @@ max_entities: 128
 max_sprites: 1024
 max_objs: 1024
 
-
+game_config: ../cfg/game_config.def
 

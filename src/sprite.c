@@ -1,6 +1,8 @@
 #include "sprite.h"
 #include "logger.h"
 #include "graphics3d.h"
+#include "opengl_funcs.h"
+#include "game_math.h"
 
 #include <SDL_image.h>
 
@@ -121,6 +123,51 @@ void CloseSprites()
   {
       DeleteSprite(&SpriteList[i]);
   }
+}
+
+
+void draw_sprite( Sprite *sprite, vec2_t position, vec2_t scale, vec2_t rotation, uint32 frame )
+{
+  vec3_t world_pos;
+  int x, y, w, h;
+  
+  if( !sprite )
+    return;
+  
+  glDisable( GL_DEPTH_TEST );
+  glEnable( GL_TEXTURE_2D );
+  glEnable( GL_COLOR_MATERIAL );
+  glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+  glEnable( GL_BLEND );
+  glBindTexture( GL_TEXTURE_2D, sprite->texture );
+  
+  get_screen_coord( position, world_pos );
+  x = frame % sprite->framesperline * sprite->w;
+  y = frame / sprite->framesperline * sprite->h;
+  w = sprite->w + x;
+  h = sprite->h + y;
+  
+  glPushMatrix();
+  glTranslatef( world_pos[ XA ], world_pos[ YA ], world_pos[ ZA ] );
+  glScalef( scale[ XA ], scale[ YA ], 1 );
+  
+  glBegin( GL_QUADS );
+  glTexCoord2f( x, y );
+  glVertex3f( world_pos[ XA ], world_pos[ YA ], 0 );
+  glTexCoord2f( x, h  );
+  glVertex3f( world_pos[ XA ], world_pos[ YA ] + sprite->h, 0 );
+  glTexCoord2f( w, h  );
+  glVertex3f( world_pos[ XA ] + sprite->w, world_pos[ YA ] + sprite->h, 0 );
+  glTexCoord2f( w, y  );
+  glVertex3f( world_pos[ XA ] + sprite->w, world_pos[ YA ], 0 );
+  glEnd();
+  
+  glPopMatrix();
+  glColor4f( 1, 1, 1, 1 );
+  glDisable( GL_BLEND );
+  glDisable( GL_COLOR_MATERIAL );
+  glDisable( GL_TEXTURE_2D );
+  glEnable( GL_DEPTH_TEST );
 }
 
 

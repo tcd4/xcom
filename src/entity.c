@@ -104,7 +104,10 @@ void draw_entity( Entity *ent )
   if( !flag_is_set( ent->flags, ENTITY_VISIBLE ) )
     return;
   
-  /* finish */
+  if( ent->draw )
+    ent->draw( ent );
+  else
+    obj_draw( ent->model, ent->position, ent->rotation, ent->scale, ent->color, ent->texture );
 }
 
 
@@ -131,9 +134,6 @@ void free_entity( Entity *ent )
   
   /* free actors */
   /* free body */
-  
-  if( ent->name )
-    g_free( ent->name );
   
   if( ent->free )
     ent->free( ent );

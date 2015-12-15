@@ -1,4 +1,17 @@
-default_camera_position: 0,0,0
-default_camera_rotation: 0,-30,0
+default_camera_position: 50,-30,30
+default_camera_rotation: 80,0,0
 
 ui: ../cfg/ui.def
+
+grid_size: 50,50
+tile_size: 2,2
+tile_scale: 1,1
+tile_model: ../models/tile.obj
+tile_texture: ../models/tile_texture.png
+
+starting_turn: 0
+num_units: 5
+
+player_spawn: 5,25
+enemy_spawn: 45,25
+

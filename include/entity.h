@@ -3,7 +3,11 @@
 
 
 #include "types.h"
+#include "obj.h"
+#include "sprite.h"
 
+
+#define MAX_UNITS 5
 
 struct entity_s;
 typedef void ( *entity_func )( struct entity_s *self );
@@ -16,19 +20,38 @@ enum entity_flags
   ENTITY_VISIBLE = 2,
 };
 
+enum ent_types
+{
+  ENT_NONE = 0,
+  ENT_GRID,
+  ENT_PLAYER,
+  ENT_ENEMY,
+  ENT_UNIT,
+  ENT_COVER
+};
+
 
 typedef struct entity_s
 {
   uint8			inuse;
   
-  char			*name;
+  char			name[ 20 ];
   uint32		type;
   data			custom_data;
   
   struct entity_s	*self;
   struct entity_s	*owner;
-  struct entity_s	*slaves;
+  struct entity_s	*slaves[ MAX_UNITS ];
   uint32		num_slaves;
+  
+  vec3_t 		position;
+  vec2_t		grid_position;
+  vec3_t		rotation;
+  vec3_t		scale;
+  vec4_t		color;
+  
+  Obj			*model;
+  Sprite		*texture;
   
   /*struct actor_s *actors;*/
   /*struct body_s *body */
@@ -37,6 +60,8 @@ typedef struct entity_s
   uint32		flags;
   uint32		think_rate;
   uint32		next_think;
+  
+  int 			health;
   
   entity_func		think;
   entity_func		draw;

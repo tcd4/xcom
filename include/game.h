@@ -12,6 +12,14 @@
 #include "types.h"
 
 
+enum turn_enum
+{
+  TURN_PLAYER = 0,
+  TURN_ENEMY,
+  TURN_NONE
+};
+
+
 /* engine functions */
 
 /**
@@ -74,6 +82,13 @@ uint32 get_frame_delay();
 vec_t* get_resolution();
 
 /**
+ * @brief gets the center of the grid
+ * 
+ * @return the center of the grid
+ */
+vec_t* get_grid_center();
+
+/**
  * @brief gets the model matrix
  * 
  * @return a pointer to the model matrix
@@ -98,6 +113,7 @@ double* get_projection_matrix();
 
 void game_start( char *game_config );
 void game_check();
+void game_end_turn();
 void game_end();
 
 

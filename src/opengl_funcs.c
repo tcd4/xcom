@@ -2,6 +2,7 @@
 
 #include <GL/glu.h>
 #include "game.h"
+#include "logger.h"
 
 
 void get_screen_coord( vec3_t position, vec2_t out )
@@ -15,9 +16,9 @@ void get_screen_coord( vec3_t position, vec2_t out )
 
 void get_world_coord( vec2_t position, vec3_t out )
 {
-  GLdouble z;
-  z = get_view_matrix()[ 3 ] - position[ YA ];
-  gluProject( position[ XA ], position[ YA ], z, 
+  GLdouble y;
+  y = get_view_matrix()[ 3 ] - position[ YA ];
+  gluUnProject( position[ XA ], y, 0.99f, 
 	      get_model_matrix(), get_projection_matrix(), get_view_matrix(),
 	      out, out + 1, out + 2 );
 }

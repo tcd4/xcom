@@ -28,5 +28,6 @@
 # Dependency Files
 *.dep
 
-# Sprite Development Files
+# Asset Development Files
 *.xcf
+*.blend

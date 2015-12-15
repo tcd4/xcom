@@ -6,6 +6,8 @@
 
 #include <SDL_image.h>
 
+#include "game.h"
+
 #define MaxSprites    1024
 
 static Sprite SpriteList[MaxSprites];
@@ -54,6 +56,9 @@ Sprite *LoadSprite(char *filename,int fw, int fh)
     Sprite *sprite;
     SDL_Surface *image;
     int Mode = GL_RGB;
+    vec_t *res;
+    vec2_t pos;
+    int rx,ry;
     
     sprite = SpriteGetByFilename(filename);
     if (sprite)return sprite;
@@ -83,15 +88,23 @@ Sprite *LoadSprite(char *filename,int fw, int fh)
     glGenTextures(1, &sprite->texture);
     glBindTexture(GL_TEXTURE_2D, sprite->texture);
     
+    sprite->framesperline = 1;
     
     if(sprite->image->format->BytesPerPixel == 4) {
         Mode = GL_RGBA;
     }
     
-    glTexImage2D(GL_TEXTURE_2D, 0, Mode, sprite->image->w, sprite->image->h, 0, Mode, GL_UNSIGNED_BYTE, sprite->image->pixels);
-    
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    res = get_resolution();
+    rx = ( int )res[ XA ];
+    ry = ( int )res[ YA ];
+    vec2_set( pos, ( ( rx >> 1 ) + sprite->w ), ( ( ry >> 1 ) + sprite->h ) );
+    get_world_coord( pos, sprite->pos );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, Mode, sprite->image->w, sprite->image->h, 0, sprite->image->format->BytesPerPixel, GL_UNSIGNED_BYTE, sprite->image->pixels);
+    
     return sprite;
 }
 
@@ -129,39 +142,45 @@ void CloseSprites()
 void draw_sprite( Sprite *sprite, vec2_t position, vec2_t scale, vec2_t rotation, uint32 frame )
 {
   vec3_t world_pos;
-  int x, y, w, h;
+  int left, right, top, bot;
   
   if( !sprite )
     return;
-  
+
   glDisable( GL_DEPTH_TEST );
   glEnable( GL_TEXTURE_2D );
   glEnable( GL_COLOR_MATERIAL );
   glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
   glEnable( GL_BLEND );
   glBindTexture( GL_TEXTURE_2D, sprite->texture );
+  glColor4f( 1, 1, 1, 1 );
   
-  get_screen_coord( position, world_pos );
-  x = frame % sprite->framesperline * sprite->w;
-  y = frame / sprite->framesperline * sprite->h;
-  w = sprite->w + x;
-  h = sprite->h + y;
+  get_world_coord( position, world_pos );
+  left = 0;
+  top = 0;
+  right = sprite->w + left;
+  bot = sprite->h + right;
   
   glPushMatrix();
   glTranslatef( world_pos[ XA ], world_pos[ YA ], world_pos[ ZA ] );
-  glScalef( scale[ XA ], scale[ YA ], 1 );
+  glScalef( 1, 1, 1 );
+  glTranslatef( sprite->pos[ XA ] * 0.5f, sprite->pos[ YA ] * 0.5f, 0.0f );
   
   glBegin( GL_QUADS );
-  glTexCoord2f( x, y );
-  glVertex3f( world_pos[ XA ], world_pos[ YA ], 0 );
-  glTexCoord2f( x, h  );
-  glVertex3f( world_pos[ XA ], world_pos[ YA ] + sprite->h, 0 );
-  glTexCoord2f( w, h  );
-  glVertex3f( world_pos[ XA ] + sprite->w, world_pos[ YA ] + sprite->h, 0 );
-  glTexCoord2f( w, y  );
-  glVertex3f( world_pos[ XA ] + sprite->w, world_pos[ YA ], 0 );
+
+  glTexCoord2f( left, top );
+  glVertex3f( -sprite->pos[ XA ] / 2, -sprite->pos[ YA ] / 2, 0 );
+
+  glTexCoord2f( left, bot  );
+  glVertex3f( -sprite->pos[ XA ] / 2, sprite->pos[ YA ] / 2, 0 );
+
+  glTexCoord2f( right, bot  );
+  glVertex3f( sprite->pos[ XA ] / 2, sprite->pos[ YA ] / 2, 0 );
+
+  glTexCoord2f( right, top  );
+  glVertex3f( sprite->pos[ XA ] / 2, -sprite->pos[ XA ] / 2, 0 );
   glEnd();
-  
+
   glPopMatrix();
   glColor4f( 1, 1, 1, 1 );
   glDisable( GL_BLEND );

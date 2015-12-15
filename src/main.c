@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "game.h"
 #include "game_math.h"
+#include "grid.h"
 
 
 void end_game();
@@ -54,6 +55,9 @@ static uint8 _init_systems()
   if( !_init_graphics() )
     return FALSE;
   
+  if( !init_camera() )
+    return FALSE;
+  
   if( !_init_ents() )
     return FALSE;
   
@@ -88,9 +92,9 @@ static uint8 _init_cmds()
   log( INFO, "adding quit command" );
   if( !add_cmd( "game_over", NULL, SDL_KEYUP, SDLK_F12, end_game, NULL ) )
     return FALSE;
-  
+
   turn_on_cmd( "game_over" );
-    
+  
   log( INFO, "command system initialized" );
   return TRUE;
 }
@@ -156,10 +160,25 @@ static uint8 _init_ents()
 
 
 
+
+
 void _loop()
 {
-  SDL_Event event;
+  SDL_Event event;/*
+  Obj *tile;
+  Sprite *texture;
+  vec3_t p, s, r;
+  vec4_t c;
   
+  
+  Sprite* test;
+  vec2_t p, s, r;
+  
+  test = LoadSprite( "../models/attack.png", -1, -1 );
+  vec2_set( p, 500, 500 );
+  vec2_set( s, 1, 1 );
+  vec2_set( r, 0, 0 );
+  */
   game_start( find_dict( _sys_config, "game_config" ) );
   
   while( !_game_over )
@@ -180,9 +199,10 @@ void _loop()
     graphics3d_frame_begin();
     
     glPushMatrix();
-    
     move_camera();
+    draw_grid();
     draw_all_entities();
+    /*draw_sprite( test, p, s, r, 1 );*/
     
     glPopMatrix();
     

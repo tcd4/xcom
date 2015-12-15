@@ -385,13 +385,7 @@ Obj *obj_load(char *filename)
     }
     
     
-    obj_file_get_counts(objFile,file);
-    
-    log(TRACE,"vertices: %i",objFile->num_vertices);
-    log(TRACE,"normals: %i",objFile->num_normals);
-    log(TRACE,"texels: %i",objFile->num_texels);
-    log(TRACE,"faces: %i",objFile->num_tris);
-    
+    obj_file_get_counts(objFile,file);    
     obj_allocate(objFile);
     obj_file_parse(objFile, file);
     
@@ -441,7 +435,7 @@ void obj_draw(
     glRotatef(rotation[ZA], 0.0f, 0.0f, 1.0f);
     glScalef(scale[XA],scale[YA],scale[ZA]);
     
-    glColor3f(color[XA],color[YA],color[ZA]);
+    /*glColor3f(color[XA],color[YA],color[ZA]);*/
     glBegin(GL_TRIANGLES);
     for (i = 0; i < obj->num_tris; i++)
     {
@@ -510,7 +504,6 @@ void obj_draw(
     }
     glEnd();
     
-    glColor4f(1,1,1,1);
     glDisable(GL_LIGHTING);
     glDisable(GL_BLEND);
     glDisable(GL_COLOR_MATERIAL);

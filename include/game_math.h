@@ -161,7 +161,7 @@
  *
  * @param v the vector to normalize
  */
-void vec2_normalize( vec2_t *v );
+void vec2_normalize( vec_t *v );
 
 /**
  * @brief gets the magnitude of a vector
@@ -170,7 +170,7 @@ void vec2_normalize( vec2_t *v );
  *
  * @return the magnitude of a vector
  */
-float vec2_get_magnitude( vec2_t v );
+float vec2_get_magnitude( vec_t *v );
 
 /**
  * @brief normalizes a vector then sets its magnitude
@@ -178,7 +178,7 @@ float vec2_get_magnitude( vec2_t v );
  * @param v the vector to use
  * @param m the magnitude to set the vector to
  */
-void vec2_set_magnitude( vec2_t *v, float m );
+void vec2_set_magnitude( vec_t *v, float m );
 
 /**
  * @brief compares the magnitudes of 2 vectors
@@ -214,14 +214,14 @@ void vec2_set_angle_degs( vec2_t *v, float a );
  * @param v the vector to use
  * @param a the angle ( in radians ) to use
  */
-void vec2_set_angle_rads( vec2_t *v, float a );
+void vec2_set_angle_rads( vec_t *v, float a );
 
 /**
  * @brief normalizes a vector
  *
  * @param v the vector to normalize
  */
-void vec3_normalize( vec3_t *v );
+void vec3_normalize( vec_t *v );
 
 /**
  * @brief gets the magnitude of a vector
@@ -230,7 +230,7 @@ void vec3_normalize( vec3_t *v );
  *
  * @return the magnitude of a vector
  */
-float vec3_get_magnitude( vec3_t v );
+float vec3_get_magnitude( vec_t *v );
 
 /**
  * @brief normalizes a vector then sets its magnitude
@@ -238,7 +238,7 @@ float vec3_get_magnitude( vec3_t v );
  * @param v the vector to use
  * @param m the magnitude to set the vector to
  */
-void vec3_set_magnitude( vec3_t *v, float m );
+void vec3_set_magnitude( vec_t *v, float m );
 
 /**
  * @brief compares the magnitudes of 2 vectors

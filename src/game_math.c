@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "game_math.h"
+#include "logger.h"
 
 
 float get_angle_deg( float x, float y )
@@ -22,38 +23,38 @@ void cross_product( vec3_t *out, vec3_t v1, vec3_t v2 )
   *out[ 2 ] = v1[ 0 ] * v2[ 1 ] - v1[ 1 ] * v2[ 0 ];
 }
 
-void vec2_normalize( vec2_t *v )
+void vec2_normalize( vec_t *v )
 {
   float m;
 
   if( !v )
     return;
 
-  m = vec2_get_magnitude( *v );
+  m = vec2_get_magnitude( v );
   if( m != 0.0f )
     return;
   m = 1 / m;
 
-  *v[ 0 ] *= m;
-  *v[ 1 ] *= m;
+  v[ 0 ] *= m;
+  v[ 1 ] *= m;
 }
 
 
-float vec2_get_magnitude( vec2_t v )
+float vec2_get_magnitude( vec_t *v )
 {
   return sqrt( v[ 0 ] * v[ 0 ] + v[ 1 ] * v[ 1 ] );
 }
 
 
-void vec2_set_magnitude( vec2_t *v, float m )
+void vec2_set_magnitude( vec_t *v, float m )
 {
   if( !v )
     return;
 
   vec2_normalize( v );
   
-  *v[ 0 ] *= m;
-  *v[ 1 ] *= m;
+  v[ 0 ] *= m;
+  v[ 1 ] *= m;
 }
 
 
@@ -93,50 +94,49 @@ void vec2_set_angle_degs( vec2_t *v, float a )
 }
 
 
-void vec2_set_angle_rads( vec2_t *v, float a )
+void vec2_set_angle_rads( vec_t *v, float a )
 {
   if( !v )
     return;
 
-  *v[ 0 ] = cos( a );
-  *v[ 1 ] = sin( a );
+  v[ 0 ] = cos( a );
+  v[ 1 ] = sin( a );
 }
 
 
-void vec3_normalize( vec3_t *v )
+void vec3_normalize( vec_t *v )
 {
   float m;
 
   if( !v )
     return;
-
-  m = vec3_get_magnitude( *v );
-  if( m != 0.0f )
+  
+  m = vec3_get_magnitude( v );
+  if( m == 0.0f )
     return;
-  m = 1 / m;
 
-  *v[ 0 ] *= m;
-  *v[ 1 ] *= m;
-  *v[ 2 ] *= m;
+  v[ 0 ] /= m;
+  v[ 1 ] /= m;
+  v[ 2 ] /= m;
 }
 
 
-float vec3_get_magnitude( vec3_t v )
+float vec3_get_magnitude( vec_t *v )
 {
   return sqrt( v[ 0 ] * v [ 0 ] + v[ 1 ] * v[ 1 ] + v[ 2 ] * v[ 2 ] );
 }
 
 
-void vec3_set_magnitude( vec3_t *v, float m )
+void vec3_set_magnitude( vec_t *v, float m )
 {
   if( !v )
     return;
 
   vec3_normalize( v );
   
-  *v[ 0 ] *= m;
-  *v[ 1 ] *= m;
-  *v[ 2 ] *= m;
+  v[ 0 ] *= m;
+  v[ 1 ] *= m;
+  v[ 2 ] *= m;
 }
 
 

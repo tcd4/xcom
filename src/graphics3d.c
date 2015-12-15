@@ -82,7 +82,8 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
     glClear( 1 );
     
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
+    
+    glEnable( GL_TEXTURE_RECTANGLE_NV);
     
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
@@ -95,7 +96,7 @@ int graphics3d_init(int sw,int sh,int fullscreen,const char *project,Uint32 fram
     
     /* my shit */
     init_game_engine( sw, sh, frameDelay );
-    
+    SDL_ShowCursor( SDL_ENABLE );
     return 0;
 }
 

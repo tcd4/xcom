@@ -105,7 +105,7 @@ uint8 str_vec3( char *str, vec_t *out )
   
   vec3_clear( tmp );
   
-  if( sscanf( str, "%lf,%lf,%lf", &tmp[ 0 ], &tmp[ 1 ], &tmp[ 2 ] ) != 2 )
+  if( sscanf( str, "%lf,%lf,%lf", &tmp[ 0 ], &tmp[ 1 ], &tmp[ 2 ] ) != 3 )
     return FALSE;
   
   vec3_copy( tmp, out );
@@ -122,7 +122,7 @@ uint8 str_vec4( char *str, vec_t *out )
   
   vec4_clear( tmp );
   
-  if( sscanf( str, "%lf,%lf,%lf,%lf", &tmp[ 0 ], &tmp[ 1 ], &tmp[ 2 ], &tmp[ 3 ] ) != 2 )
+  if( sscanf( str, "%lf,%lf,%lf,%lf", &tmp[ 0 ], &tmp[ 1 ], &tmp[ 2 ], &tmp[ 3 ] ) != 3 )
     return FALSE;
   
   vec4_copy( tmp, out );

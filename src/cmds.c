@@ -376,8 +376,7 @@ static void _check_cmd_map( Cmd_Map *map, SDL_Event *event )
   while( iter )
   {
     tmp = ( Cmd* )( iter->data );
-    if( tmp->inuse )
-      _check_cmd( tmp, event );
+    _check_cmd( tmp, event );
     
     iter = iter->next;
   }
@@ -388,6 +387,7 @@ static void _check_cmd( Cmd *cmd, SDL_Event *event )
 {
   if( event->type != cmd->event_type )
     return;
+
   
   if( event->type == SDL_KEYDOWN || event->type == SDL_KEYUP )
   {
@@ -413,6 +413,14 @@ static void _check_cmd( Cmd *cmd, SDL_Event *event )
   else if( event->type == SDL_CONTROLLERAXISMOTION )
   {
     if( event->caxis.axis == cmd->id )
+      goto hit;
+    else
+      goto end;
+  }
+  else if( event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP )
+  {
+    
+    if( event->button.state == cmd->id )
       goto hit;
     else
       goto end;

@@ -5,9 +5,9 @@ controls
 
 f12 - close game
 
-q - rotate left
+q - rotate camera left
 
-e - rotate right
+e - rotate camera right
 
 w - zoom in 
 

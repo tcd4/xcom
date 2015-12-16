@@ -56,9 +56,6 @@ Sprite *LoadSprite(char *filename,int fw, int fh)
     Sprite *sprite;
     SDL_Surface *image;
     int Mode = GL_RGB;
-    vec_t *res;
-    vec2_t pos;
-    int rx,ry;
     
     sprite = SpriteGetByFilename(filename);
     if (sprite)return sprite;
@@ -69,7 +66,7 @@ Sprite *LoadSprite(char *filename,int fw, int fh)
     image = IMG_Load(filename);
     if (!image)
     {
-        log(ERROR,"failed to load sprite image file: %s, re: %s",filename, SDL_GetError());
+        log( TRACE, "failed to load sprite image file: %s, re: %s",filename, SDL_GetError());
         return NULL;
     }
     sprite->image = image;
@@ -88,23 +85,15 @@ Sprite *LoadSprite(char *filename,int fw, int fh)
     glGenTextures(1, &sprite->texture);
     glBindTexture(GL_TEXTURE_2D, sprite->texture);
     
-    sprite->framesperline = 1;
     
     if(sprite->image->format->BytesPerPixel == 4) {
         Mode = GL_RGBA;
     }
     
-    res = get_resolution();
-    rx = ( int )res[ XA ];
-    ry = ( int )res[ YA ];
-    vec2_set( pos, ( ( rx >> 1 ) + sprite->w ), ( ( ry >> 1 ) + sprite->h ) );
-    get_world_coord( pos, sprite->pos );
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, Mode, sprite->image->w, sprite->image->h, 0, Mode, GL_UNSIGNED_BYTE, sprite->image->pixels);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);    
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, Mode, sprite->image->w, sprite->image->h, 0, sprite->image->format->BytesPerPixel, GL_UNSIGNED_BYTE, sprite->image->pixels);
-    
     return sprite;
 }
 

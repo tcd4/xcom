@@ -48,7 +48,7 @@ uint8 init_grid( vec2_t grid_size, vec2_t tile_size, vec2_t tile_scale, char *ti
   _tile_scale[ ZA ] = 1;
   vec3_clear( _tile_rotation );
   _tile_rotation[ XA ] = 90;
-  vec4_clear( _tile_color );
+  vec4_set( _tile_color, .9, .90, .98, 1 );
   
   _tile_model = obj_load( tile_model_file );
   _tile_texture = LoadSprite( tile_texture_file, -1, -1 );

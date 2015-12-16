@@ -10,6 +10,7 @@
 
 
 #include "types.h"
+#include "entity.h"
 
 
 enum turn_enum
@@ -111,9 +112,31 @@ double* get_projection_matrix();
 
 /* game functions */
 
+/**
+ * @brief initializes the game
+ * 
+ * @param game_config the config file to load the game from
+ */
 void game_start( char *game_config );
+
+/**
+ * @brief checks for a winner and displays the winner
+ */
 void game_check();
+
+/**
+ * @brief ends a turn
+ */
 void game_end_turn();
+
+/**
+ * @brief draws all entities
+ */
+void game_set_winner( Entity *loser );
+
+/**
+ * @brief ends the game
+ */
 void game_end();
 
 

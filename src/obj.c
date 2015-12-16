@@ -435,7 +435,7 @@ void obj_draw(
     glRotatef(rotation[ZA], 0.0f, 0.0f, 1.0f);
     glScalef(scale[XA],scale[YA],scale[ZA]);
     
-    /*glColor3f(color[XA],color[YA],color[ZA]);*/
+    glColor3f(color[XA],color[YA],color[ZA]);
     glBegin(GL_TRIANGLES);
     for (i = 0; i < obj->num_tris; i++)
     {

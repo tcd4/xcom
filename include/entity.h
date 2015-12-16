@@ -61,7 +61,12 @@ typedef struct entity_s
   uint32		think_rate;
   uint32		next_think;
   
+  int			living_units;
+  int			active_units;
   int 			health;
+  int			accuracy;
+  int			dodge;
+  uint32		unit_flags;
   
   entity_func		think;
   entity_func		draw;
@@ -71,18 +76,61 @@ typedef struct entity_s
   entity_func		free;
 }Entity;
 
-
+/**
+ * @brief initializes the entity system
+ * 
+ * @param max_entities the maximum number of entities that is allowed
+ * 
+ * @return TRUE on success, FALSE if else
+ */
 uint8 init_entity_system( uint32 max_entities );
+
+/**
+ * @brief creates a new entity
+ * 
+ * @return a pointer the new entity
+ */
 Entity* create_entity();
 
+/**
+ * @brief updates an entity
+ * 
+ * @param ent the entity to update
+ */
 void update_entity( Entity *ent );
+
+/**
+ * @brief updates all entities
+ */
 void update_all_entities();
 
+/**
+ * @brief draws an entity
+ * 
+ * @param ent the entity to draw
+ */
 void draw_entity( Entity *ent );
+
+/**
+ * @brief draws all entities
+ */
 void draw_all_entities();
 
+/**
+ * @brief frees an entity
+ * 
+ * @param ent the entity to free
+ */
 void free_entity( Entity *ent );
+
+/**
+ * @brief frees all entities
+ */
 void free_all_entities();
+
+/**
+ * @brief closes the entity system
+ */
 void exit_entity_system();
 
 

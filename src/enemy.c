@@ -1,5 +1,6 @@
 #include "enemy.h"
 #include "unit.h"
+#include "game_math.h"
 
 
 static Entity *_enemy = NULL;
@@ -9,6 +10,7 @@ Entity* create_enemy( int num_units, vec2_t spawn_position )
 {
   Entity *enemy;
   int i;
+  vec4_t color;
   
   enemy = create_entity();
   if( !enemy )
@@ -19,11 +21,14 @@ Entity* create_enemy( int num_units, vec2_t spawn_position )
   enemy->flags = ENTITY_NONE;
   enemy->num_slaves = MAX_UNITS;
 
-  i = 0;
-  enemy->slaves[ i ] = create_unit( enemy, spawn_position, "../models/cube.obj", "../models/cube_text.png" );
   
-  /* set up units */
-  
+  vec4_set( color, 1, 0, 0, 1 );
+  for( i = 0; i < MAX_UNITS; i++ )
+  {
+    enemy->slaves[ i ] = create_unit( enemy, spawn_position, color, "../models/monkey.obj", "../models/monkey.png" );
+    spawn_position[ YA ]++;
+  }
+  enemy->living_units = MAX_UNITS;
   enemy->free = free_enemy;
   
   return enemy;
@@ -32,7 +37,7 @@ Entity* create_enemy( int num_units, vec2_t spawn_position )
 
 Entity* get_enemy_units()
 {
-  return *_enemy->slaves;
+  return _enemy->slaves[ 0 ];
 }
 
 

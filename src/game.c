@@ -10,6 +10,8 @@
 #include "grid.h"
 #include "player.h"
 #include "enemy.h"
+#include "unit.h"
+#include "weapon.h"
 
 
 typedef struct engine_s
@@ -165,9 +167,12 @@ void game_start( char *game_config )
   set_camera( game.default_camera_position, game.default_camera_rotation );
   turn_on_camera_controls();
   
+  setup_unit_selection();
   game.player = create_player( game.num_units, player_spawn );
   game.enemy = create_enemy( game.num_units, enemy_spawn );
-  turn_on_player_cmds();
+  init_weapons( find_dict( game.config, "weapon_config" ), game.player, game.enemy );
+  
+  start_player_turn( game.player );
 }
 
 
@@ -200,13 +205,25 @@ void game_end_turn()
   if( game.turn == TURN_PLAYER )
   {
     /* turn off enemy ai */
-    turn_on_player_cmds();
+    start_player_turn( game.player );
   }
   else
   {
     turn_off_player_cmds();
+    game_end_turn();
     /* turn on enemy ai */
   }
+}
+
+
+void game_set_winner( Entity *loser )
+{
+  turn_off_player_cmds();
+  
+  if( loser == game.player )
+    game.winner = TURN_ENEMY;
+  else
+    game.winner = TURN_PLAYER;
 }
 
 

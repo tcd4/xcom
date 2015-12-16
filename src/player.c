@@ -3,6 +3,8 @@
 #include "cmds.h"
 #include "unit.h"
 #include "logger.h"
+#include "game_math.h"
+#include "weapon.h"
 
 
 void next_unit( data param );
@@ -11,16 +13,17 @@ void pick_weapon( data param );
 void hunker_unit( data param );
 void steady_unit( data param );
 
-void exit_attack_cmds( data param );
 void end_turn();
 
-static uint16 current_unit;
+static uint16 current_unit = 0;
+static uint16 target_unit = 0;
 
 
 Entity* create_player( int num_units, vec2_t spawn_position )
 {
   Entity *player;
   int i;
+  vec4_t color;
   
   player = create_entity();
   if( !player )
@@ -55,10 +58,14 @@ Entity* create_player( int num_units, vec2_t spawn_position )
   if( !add_cmd( "end_player_turn", NULL, SDL_KEYDOWN, SDLK_RETURN, end_turn, NULL ) )
     return FALSE;
   
-  i = 0;
-  player->slaves[ i ] = create_unit( player, spawn_position, "../models/monkey.obj", "../models/monkey.png" );
-  
-  /* set up units */
+  vec4_set( color, 0, 0, 1, 1 );
+  for( i = 0; i < MAX_UNITS; i++ )
+  {
+    player->slaves[ i ] = create_unit( player, spawn_position, color, "../models/monkey.obj", "../models/monkey.png" );
+    spawn_position[ YA ]++;
+  }
+  player->slaves[ 0 ]->unit_flags |= UNIT_SELECTED;
+  player->living_units = MAX_UNITS;
   
   player->free = free_player;
   
@@ -85,8 +92,25 @@ void next_unit( data param )
   Entity *player;
   
   player = ( Entity* )( param );
-  current_unit = ( current_unit + 1 ) % player->num_slaves;
-  /* check if unit is dead */
+  
+  if( player->active_units <= 0 )
+  {
+    end_turn();
+    return;
+  }
+  
+  if( player->slaves[ current_unit ] )
+    player->slaves[ current_unit ]->unit_flags &= ~UNIT_SELECTED;
+  
+  current_unit = ( current_unit + 1 ) % MAX_UNITS;
+  
+  if( ( !player->slaves[ current_unit ] ) || ( player->slaves[ current_unit ]->flags & UNIT_DEAD ) || ( player->slaves[ current_unit ]->flags & UNIT_FINISHED ) )
+  {
+    next_unit( player );
+    return;
+  }
+  
+  player->slaves[ current_unit ]->unit_flags |= UNIT_SELECTED;
 }
 
 
@@ -95,6 +119,8 @@ void move_unit( data param )
   Entity *player;
   
   player = ( Entity* )( param );
+  
+  do_unit_action( player->slaves[ current_unit ], UNIT_FINISHED );
 }
 
 
@@ -104,7 +130,9 @@ void pick_weapon( data param )
   
   player = ( Entity* )( param );
   turn_on_cmd( "exit_attack_cmds" );
-  /* turn on weapon cmds */
+  next_target( NULL );
+  turn_off_cmd_map( "unit_controls" );
+  turn_on_weapon_cmds();
 }
 
 
@@ -113,6 +141,11 @@ void hunker_unit( data param )
   Entity *player;
   
   player = ( Entity* )( param );
+  
+  if( player->slaves[ current_unit ]->unit_flags & UNIT_HUNKERED )
+    return;
+  
+  do_unit_action( player->slaves[ current_unit ], UNIT_HUNKERED );
 }
 
 
@@ -121,13 +154,56 @@ void steady_unit( data param )
   Entity *player;
   
   player = ( Entity* )( param );
+  
+  if( player->slaves[ current_unit ]->unit_flags & UNIT_STEADIED )
+    return;
+  
+  do_unit_action( player->slaves[ current_unit ], UNIT_STEADIED );
+}
+
+
+void do_unit_action( Entity *unit, int action )
+{
+  if( !unit )
+    return;
+  
+  unit->unit_flags |= action;
+  unit->unit_flags |= UNIT_FINISHED;
+  unit->owner->active_units--;
+  next_unit( unit->owner );
 }
 
 
 void exit_attack_cmds( data param )
 {
   turn_off_cmd( "exit_attack_cmds" );
-  /* turn off weapon cmds */
+  turn_on_player_cmds();
+  turn_off_weapon_cmds();
+  clear_target();
+}
+
+
+void start_player_turn( Entity *player )
+{
+  int i;
+  
+  turn_on_player_cmds();
+  
+  player->active_units = player->living_units;
+  
+  for( i = 0; i < MAX_UNITS; i++ )
+  {
+    if( player->slaves[ i ] )
+    {
+      player->slaves[ current_unit ]->unit_flags &= ~UNIT_FINISHED;
+      
+      if( player->slaves[ i ]->unit_flags & UNIT_HUNKERED )
+      {
+	player->slaves[ current_unit ]->unit_flags &= ~UNIT_HUNKERED;
+	player->slaves[ current_unit ]->dodge -= HUNKER_BONUS;
+      }
+    }
+  }
 }
 
 

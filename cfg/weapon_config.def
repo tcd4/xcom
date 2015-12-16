@@ -1,0 +1,4 @@
+sniper: ../cfg/sniper.def
+shotgun: ../cfg/shotgun.def
+assault: ../cfg/assault.def
+smg: ../cfg/smg.def

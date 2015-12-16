@@ -133,10 +133,10 @@ void graphics3d_next_frame()
 void graphics3d_setup_default_light()
 {
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 50.0 };
-    GLfloat light_position[] = { -10.0, -10.0, 10.0, 0.0 };
+    GLfloat mat_shininess[] = { 20.0 };
+    GLfloat light_position[] = { 0, 50, 50.0, 0.0 };
     GLfloat light_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_diffuse[] = { 0.7, 0.7, 0.7, 1.0 };
     GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     
     GLfloat light1_ambient[] = { 1.2, 1.2, 1.2, 1.0 };

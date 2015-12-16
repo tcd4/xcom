@@ -5,6 +5,16 @@ controls
 
 f12 - close game
 
+q - rotate left
+
+e - rotate right
+
+w - zoom in 
+
+s - zoom out
+
+unit controls
+
 1 - pick weapon
 
 2 - move
@@ -15,7 +25,7 @@ f12 - close game
 
 tab - select next unit
 
-after choosing pick weapon
+unit controls after choosing pick weapon
 
 5 - fire sniper
 

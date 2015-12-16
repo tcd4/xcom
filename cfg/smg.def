@@ -1,4 +1,4 @@
-accuracy: 30
-damage: 3
-range: 30
-shots: 1
+accuracy: 0
+damage: 1
+range: 15
+shots: 7

@@ -78,7 +78,8 @@ void take_damage( Entity *unit, int damage )
 
 void unit_die( Entity *unit )
 {
-  unit->flags |= UNIT_DEAD;
+  unit->unit_flags |= UNIT_DEAD;
+  unit->flags &= ~ENTITY_VISIBLE;
   unit->owner->living_units--;
   if( unit->owner->living_units <= 0 )
     game_set_winner( unit->owner );

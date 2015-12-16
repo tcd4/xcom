@@ -43,6 +43,26 @@ grid.c:26 --- INFO
 initializing grid
 grid.c:58 --- INFO
 grid initialized
+weapon.c:197 --- TRACE
+miss
+weapon.c:193 --- TRACE
+Hit
+weapon.c:193 --- TRACE
+Hit
+weapon.c:197 --- TRACE
+miss
+weapon.c:197 --- TRACE
+miss
+weapon.c:197 --- TRACE
+miss
+weapon.c:193 --- TRACE
+Hit
+weapon.c:197 --- TRACE
+miss
+weapon.c:197 --- TRACE
+miss
+weapon.c:197 --- TRACE
+miss
 main.c:222 --- INFO
 !!!!!SHUTTING DOWN!!!!!
 main.c:227 --- INFO

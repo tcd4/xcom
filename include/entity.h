@@ -61,6 +61,7 @@ typedef struct entity_s
   uint32		think_rate;
   uint32		next_think;
   
+  int			cur_unit;
   int			living_units;
   int			active_units;
   int 			health;

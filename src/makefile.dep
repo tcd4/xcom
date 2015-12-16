@@ -68,4 +68,4 @@ weapon.o: weapon.c ../include/weapon.h ../include/types.h \
  ../include/sprite.h ../include/graphics3d.h ../include/cmds.h \
  ../include/unit.h ../include/player.h ../include/parser.h \
  ../include/dict.h ../include/dict_conversions.h ../include/logger.h \
- ../include/enemy.h
+ ../include/enemy.h ../include/game_math.h

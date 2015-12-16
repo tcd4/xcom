@@ -6,7 +6,7 @@
 
 
 #define BASE_HEALTH 4
-#define BASE_ACCURACY 50
+#define BASE_ACCURACY 30
 #define BASE_DODGE 10
 #define MAX_ACTIONS 1
 
@@ -22,7 +22,8 @@ enum unit_flags
   UNIT_COVERED = 2,
   UNIT_SELECTED = 4,
   UNIT_FINISHED = 8,
-  UNIT_DEAD = 32
+  UNIT_DEAD = 32,
+  UNIT_NONE = 64
 };
 
 Entity* create_unit( Entity *owner, vec2_t spawn_position, vec4_t color, char *model, char *texture );

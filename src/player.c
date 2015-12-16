@@ -7,16 +7,12 @@
 #include "weapon.h"
 
 
-void next_unit( data param );
 void move_unit( data param );
 void pick_weapon( data param );
 void hunker_unit( data param );
 void steady_unit( data param );
 
 void end_turn();
-
-static uint16 current_unit = 0;
-static uint16 target_unit = 0;
 
 
 Entity* create_player( int num_units, vec2_t spawn_position )
@@ -32,24 +28,20 @@ Entity* create_player( int num_units, vec2_t spawn_position )
   player->type = ENT_PLAYER;
   player->flags = ENTITY_NONE;
   player->num_slaves = MAX_UNITS;
-  current_unit = 0;
   
-  if( !add_cmd_map( "unit_controls" ) )
+  if( !add_cmd( "next_unit", NULL, SDL_KEYDOWN, SDLK_TAB, next_unit, player ) )
     return FALSE;
   
-  if( !add_cmd( "next_unit", "unit_controls", SDL_KEYDOWN, SDLK_TAB, next_unit, player ) )
+  if( !add_cmd( "pick_weapon", NULL, SDL_KEYUP, SDLK_1, pick_weapon, player ) )
     return FALSE;
   
-  if( !add_cmd( "pick_weapon", "unit_controls", SDL_KEYDOWN, SDLK_1, pick_weapon, player ) )
+  if( !add_cmd( "move_unit", NULL, SDL_KEYDOWN, SDLK_2, move_unit, player ) )
     return FALSE;
   
-  if( !add_cmd( "move_unit", "unit_controls", SDL_KEYDOWN, SDLK_2, move_unit, player ) )
+  if( !add_cmd( "hunker_unit", NULL, SDL_KEYDOWN, SDLK_3, hunker_unit, player ) )
     return FALSE;
   
-  if( !add_cmd( "hunker_unit", "unit_controls", SDL_KEYDOWN, SDLK_3, hunker_unit, player ) )
-    return FALSE;
-  
-  if( !add_cmd( "steady_unit", "unit_controls", SDL_KEYDOWN, SDLK_4, steady_unit, player ) )
+  if( !add_cmd( "steady_unit", NULL, SDL_KEYDOWN, SDLK_4, steady_unit, player ) )
     return FALSE;
   
   if( !add_cmd( "exit_attack_cmds", NULL, SDL_KEYDOWN, SDLK_ESCAPE, exit_attack_cmds, NULL ) )
@@ -75,14 +67,22 @@ Entity* create_player( int num_units, vec2_t spawn_position )
 
 void turn_on_player_cmds()
 {
-  turn_on_cmd_map( "unit_controls" );
+  turn_on_cmd( "next_unit" );
+  turn_on_cmd( "pick_weapon" );
+  turn_on_cmd( "move_unit" );
+  turn_on_cmd( "hunker_unit" );
+  turn_on_cmd( "steady_unit" );
   turn_on_cmd( "end_player_turn" );
 }
 
 
 void turn_off_player_cmds()
 {
-  turn_off_cmd_map( "unit_controls" );
+  turn_off_cmd( "next_unit" );
+  turn_off_cmd( "pick_weapon" );
+  turn_off_cmd( "move_unit" );
+  turn_off_cmd( "hunker_unit" );
+  turn_off_cmd( "steady_unit" );
   turn_off_cmd( "end_player_turn" );
 }
 
@@ -99,18 +99,18 @@ void next_unit( data param )
     return;
   }
   
-  if( player->slaves[ current_unit ] )
-    player->slaves[ current_unit ]->unit_flags &= ~UNIT_SELECTED;
+  if( player->slaves[ player->cur_unit ] )
+    player->slaves[ player->cur_unit ]->unit_flags &= ~UNIT_SELECTED;
   
-  current_unit = ( current_unit + 1 ) % MAX_UNITS;
+  player->cur_unit = ( player->cur_unit + 1 ) % MAX_UNITS;
   
-  if( ( !player->slaves[ current_unit ] ) || ( player->slaves[ current_unit ]->flags & UNIT_DEAD ) || ( player->slaves[ current_unit ]->flags & UNIT_FINISHED ) )
+  if( ( !player->slaves[ player->cur_unit ] ) || ( player->slaves[ player->cur_unit ]->unit_flags & UNIT_DEAD ) || ( player->slaves[ player->cur_unit ]->unit_flags & UNIT_FINISHED ) )
   {
     next_unit( player );
     return;
   }
   
-  player->slaves[ current_unit ]->unit_flags |= UNIT_SELECTED;
+  player->slaves[ player->cur_unit ]->unit_flags |= UNIT_SELECTED;
 }
 
 
@@ -120,19 +120,16 @@ void move_unit( data param )
   
   player = ( Entity* )( param );
   
-  do_unit_action( player->slaves[ current_unit ], UNIT_FINISHED );
+  do_unit_action( player->slaves[ player->cur_unit ], UNIT_FINISHED );
 }
 
 
 void pick_weapon( data param )
 {
-  Entity *player;
-  
-  player = ( Entity* )( param );
+  turn_off_player_cmds();
   turn_on_cmd( "exit_attack_cmds" );
-  next_target( NULL );
-  turn_off_cmd_map( "unit_controls" );
   turn_on_weapon_cmds();
+  next_target( NULL );
 }
 
 
@@ -142,10 +139,10 @@ void hunker_unit( data param )
   
   player = ( Entity* )( param );
   
-  if( player->slaves[ current_unit ]->unit_flags & UNIT_HUNKERED )
+  if( player->slaves[ player->cur_unit ]->unit_flags & UNIT_HUNKERED )
     return;
   
-  do_unit_action( player->slaves[ current_unit ], UNIT_HUNKERED );
+  do_unit_action( player->slaves[ player->cur_unit ], UNIT_HUNKERED );
 }
 
 
@@ -155,10 +152,10 @@ void steady_unit( data param )
   
   player = ( Entity* )( param );
   
-  if( player->slaves[ current_unit ]->unit_flags & UNIT_STEADIED )
+  if( player->slaves[ player->cur_unit ]->unit_flags & UNIT_STEADIED )
     return;
   
-  do_unit_action( player->slaves[ current_unit ], UNIT_STEADIED );
+  do_unit_action( player->slaves[ player->cur_unit ], UNIT_STEADIED );
 }
 
 
@@ -195,12 +192,12 @@ void start_player_turn( Entity *player )
   {
     if( player->slaves[ i ] )
     {
-      player->slaves[ current_unit ]->unit_flags &= ~UNIT_FINISHED;
+      player->slaves[ player->cur_unit ]->unit_flags &= ~UNIT_FINISHED;
       
       if( player->slaves[ i ]->unit_flags & UNIT_HUNKERED )
       {
-	player->slaves[ current_unit ]->unit_flags &= ~UNIT_HUNKERED;
-	player->slaves[ current_unit ]->dodge -= HUNKER_BONUS;
+	player->slaves[ player->cur_unit ]->unit_flags &= ~UNIT_HUNKERED;
+	player->slaves[ player->cur_unit ]->dodge -= HUNKER_BONUS;
       }
     }
   }

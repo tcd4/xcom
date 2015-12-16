@@ -1,6 +1,7 @@
 # xcom
 3d video game
 
+libs used - SDL 2, OpenGL, glib, yaml
 controls
 
 f12 - close game

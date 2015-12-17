@@ -3,7 +3,7 @@
 
 look at the command line for info
 
-libs used - SDL 2, OpenGL, glib, yaml
+libs used - SDL 2, OpenGL, glib, yaml, gsl
 
 controls
 

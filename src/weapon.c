@@ -185,12 +185,13 @@ void fire( Entity *shooter, int weapon )
   if( shooter->slaves[ shooter->cur_unit ]->unit_flags & UNIT_STEADIED )
     accuracy += STEADY_BONUS;
   
+  log( TRACE, "%i percent chance to hit", accuracy );
   for( i = 0; i < _weapon_list[ weapon ].shots; i ++ )
   {
     if( irandom() < accuracy )
     {
-      take_damage( _enemy->slaves[ _target ], 3 );
       log( TRACE, "Hit" );
+      take_damage( _enemy->slaves[ _target ], 3 );   
     }
     else
     {

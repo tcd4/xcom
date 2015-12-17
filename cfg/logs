@@ -43,26 +43,24 @@ grid.c:26 --- INFO
 initializing grid
 grid.c:58 --- INFO
 grid initialized
-weapon.c:197 --- TRACE
+weapon.c:188 --- TRACE
+50 percent chance to hit
+weapon.c:198 --- TRACE
 miss
+weapon.c:188 --- TRACE
+50 percent chance to hit
 weapon.c:193 --- TRACE
 Hit
+unit.c:74 --- TRACE
+unit took 3 damage, currently at 1 health
+weapon.c:188 --- TRACE
+50 percent chance to hit
 weapon.c:193 --- TRACE
 Hit
-weapon.c:197 --- TRACE
-miss
-weapon.c:197 --- TRACE
-miss
-weapon.c:197 --- TRACE
-miss
-weapon.c:193 --- TRACE
-Hit
-weapon.c:197 --- TRACE
-miss
-weapon.c:197 --- TRACE
-miss
-weapon.c:197 --- TRACE
-miss
+unit.c:74 --- TRACE
+unit took 3 damage, currently at -2 health
+unit.c:82 --- TRACE
+unit died
 main.c:222 --- INFO
 !!!!!SHUTTING DOWN!!!!!
 main.c:227 --- INFO

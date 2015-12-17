@@ -120,7 +120,7 @@ void move_unit( data param )
   
   player = ( Entity* )( param );
   
-  do_unit_action( player->slaves[ player->cur_unit ], UNIT_FINISHED );
+  do_unit_action( player->slaves[ player->cur_unit ], UNIT_NONE );
 }
 
 
@@ -143,6 +143,7 @@ void hunker_unit( data param )
     return;
   
   do_unit_action( player->slaves[ player->cur_unit ], UNIT_HUNKERED );
+  log( TRACE, "unit hunkered" );
 }
 
 
@@ -156,6 +157,7 @@ void steady_unit( data param )
     return;
   
   do_unit_action( player->slaves[ player->cur_unit ], UNIT_STEADIED );
+  log( TRACE, "unit steadied" );
 }
 
 

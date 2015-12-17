@@ -172,6 +172,7 @@ void game_start( char *game_config )
   game.enemy = create_enemy( game.num_units, enemy_spawn );
   init_weapons( find_dict( game.config, "weapon_config" ), game.player, game.enemy );
   
+  game.winner = TURN_NONE;
   start_player_turn( game.player );
 }
 
@@ -187,10 +188,12 @@ void game_check()
     if( game.winner == TURN_PLAYER )
     {
       /* display player wins */
+      log( TRACE, "PLAYER WINS" );
     }
     else
     {
       /* display player loses */
+      log( TRACE, "ENEMY WINS" );
     }
   }
 }

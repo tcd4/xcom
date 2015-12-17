@@ -71,6 +71,7 @@ void unit_draw( Entity *unit )
 void take_damage( Entity *unit, int damage )
 {
   unit->health -= damage;
+  log( TRACE, "unit took %i damage, currently at %i health", damage, unit->health );
   if( unit->health <= 0 )
     unit->die( unit );
 }
@@ -78,6 +79,7 @@ void take_damage( Entity *unit, int damage )
 
 void unit_die( Entity *unit )
 {
+  log( TRACE, "unit died" );
   unit->unit_flags |= UNIT_DEAD;
   unit->flags &= ~ENTITY_VISIBLE;
   unit->owner->living_units--;

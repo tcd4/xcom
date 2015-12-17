@@ -6,6 +6,8 @@ controls
 
 f12 - close game
 
+enter - end turn
+
 q - rotate camera left
 
 e - rotate camera right
